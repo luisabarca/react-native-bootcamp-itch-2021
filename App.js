@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Button, TouchableOpacity } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import * as Share from 'expo-sharing';
+import { View, Button, TouchableOpacity, Share } from 'react-native';
 import firebase from 'firebase/app';
 
 import LogoItch from './src/componentes/Logo';
@@ -57,8 +55,10 @@ export default function App() {
       measurementId: "G-LYG1T4VT6J"
     };
   
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    if (firebase.apps.length === 0) {
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    }
 
     // desmontaje
     return () => {
@@ -67,9 +67,10 @@ export default function App() {
   }, []);
 
   const manejaCompartir = async () => {
-    await Share.shareAsync('./assets/aguila.png', {
-      dialogTitle: 'Visita la página web del ITCH',
-      mimeType: 'image/jpg',
+    await Share.share({
+      message: 'Compartiendo el curso',
+      title: 'Curso 2021',
+      url: 'http://www.itchilpancingo.edu.mx/',
     });
 
     console.log('Compartiendo finaliza...');
