@@ -9,6 +9,7 @@ import { firebaseConfig } from './src/utils';
 import Login from './src/pantallas/Login';
 import Home from './src/pantallas/Home';
 import Alumnos from './src/pantallas/Alumnos';
+import Loading from './src/pantallas/Loading';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +45,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{
         headerShown: false,
       }}>
+        <Stack.Screen name="Loading" component={Loading} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Principal" component={Tabs} />
       </Stack.Navigator>
