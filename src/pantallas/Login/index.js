@@ -3,13 +3,16 @@ import { View, Button } from "react-native";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import firebase from 'firebase';
 import "firebase/auth";
+import "firebase/firestore";
 
 import InputPhoneItch from "../../componentes/InputPhoneItch";
 import LogoItch from "../../componentes/Logo";
-import { firebaseConfig } from '../../utils';
+import { firebaseConfig, setUsuarioConSesionActiva } from '../../utils';
 import styles from './Login.styles';
 
 const Login = ({ navigation }) => {
+  const db = firebase.firestore();
+
   // Referencia al componente reCaptcha.
   const recaptchaRef = useRef(null);
   // Guarda el teléfono que escribe el usuario.
@@ -75,6 +78,17 @@ const Login = ({ navigation }) => {
       // Iniciamos sesión
       const authResult = await firebase.auth().signInWithCredential(credential);
 
+      // Guardar el usuario.
+      setUsuarioConSesionActiva();
+
+      // Guardar la sessión más reciente en /usuarios/7471234567
+      db.collection('usuarios').doc(telefono.toString()).set({
+        telefono, // telefono: telefono,
+        fecha: new Date(),
+      });
+
+      // @TODO: registrarlo a notificaciones.
+
       // Si todo sale bien, se manda a la pantalla principal.
       navigation.navigate('Principal');
     } catch (error) {
@@ -99,6 +113,7 @@ const Login = ({ navigation }) => {
         valor={telefono}
         alCambiarTexto={handlePhone}
         textPorDefecto="Tu número a 10 dígitos"
+        returnKeyType="done"
       />
 
       <Button
@@ -113,6 +128,7 @@ const Login = ({ navigation }) => {
         alCambiarTexto={handleSmsCode}
         textPorDefecto="Código SMS"
         editable={codigoEnviado}
+        returnKeyType="go"
       />
       <Button
         title="Confirmar código SMS"
