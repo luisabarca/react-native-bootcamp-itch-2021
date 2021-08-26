@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, View } from "react-native";
 
-const InputItch = ({ valor, alCambiarTexto, textPorDefecto, editable, keyboardType }) => {
+const InputItch = ({ valor, alCambiarTexto, textPorDefecto, editable, keyboardType, returnKeyType }) => {
   // destructuring
   // const { value, onChangeText } = props;
 
@@ -28,6 +28,7 @@ const InputItch = ({ valor, alCambiarTexto, textPorDefecto, editable, keyboardTy
         onChangeText={alCambiarTexto}
         keyboardType={keyboardType || 'default'}
         editable={isEditable}
+        returnKeyType={returnKeyType || ''}
         style={{
           width: "100%",
           height: 48,
