@@ -7,7 +7,7 @@ import "firebase/firestore";
 
 import InputPhoneItch from "../../componentes/InputPhoneItch";
 import LogoItch from "../../componentes/Logo";
-import { firebaseConfig, setUsuarioConSesionActiva } from '../../utils';
+import { firebaseConfig, obtenerPushToken, setUsuarioConSesionActiva } from '../../utils';
 import styles from './Login.styles';
 
 const Login = ({ navigation }) => {
@@ -84,10 +84,9 @@ const Login = ({ navigation }) => {
       // Guardar la sessión más reciente en /usuarios/7471234567
       db.collection('usuarios').doc(telefono.toString()).set({
         telefono, // telefono: telefono,
+        token: await obtenerPushToken(),
         fecha: new Date(),
       });
-
-      // @TODO: registrarlo a notificaciones.
 
       // Si todo sale bien, se manda a la pantalla principal.
       navigation.navigate('Principal');
