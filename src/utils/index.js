@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SESSION_STATUS } from "./constants";
+import { SESSION_STATUS, TOKEN_PUSH } from "./constants";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCN_HQl9rLa2IsoJixR33F-5f0MqjzT9Cc",
@@ -50,4 +50,16 @@ export const esUsuarioConSesionActiva = async () => {
   const valor = await leerLocal(SESSION_STATUS);
 
   return valor == 'si';
+};
+
+
+/**
+ * Establece un usuario con sesión activa.
+ */
+export const guardarPushToken = async (token) => {
+  await guardarLocal(TOKEN_PUSH, token);
+};
+
+export const obtenerPushToken = async () => {
+  return await leerLocal(TOKEN_PUSH);
 };
