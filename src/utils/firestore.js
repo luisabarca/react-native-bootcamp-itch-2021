@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import "firebase/auth";
+
+// Ambito global
+
+export const logout = async () => {
+    await firebase.auth().signOut();
+};
 
 export const useGetFirestoreAlumnos = () => {
   const db = firebase.firestore();
