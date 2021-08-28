@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, FlatList, ActivityIndicator, SafeAreaView, Button } from "react-native";
+import * as Notifications from 'expo-notifications';
 import * as firebase from 'firebase'
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -58,6 +59,17 @@ const Home = () => {
       setAviso(docAviso.data());
     }));
   }, []);
+
+  useEffect(() => {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: aviso.titulo,
+        body: aviso.aviso,
+      },
+      trigger: null,
+    });
+  }, [aviso]);
+
 
   const renderNoticia = ({item}) => {
     return (
