@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, Image, FlatList, ActivityIndicator, SafeAreaView, Button } from "react-native";
 import * as firebase from 'firebase'
 import 'firebase/firestore';
+import 'firebase/auth';
 
 import LogoItch from "../../componentes/Logo";
 import styles from './styles';
+import { logout } from "../../utils/firestore";
 
 const Noticia = ({datos}) => {
   return (
@@ -36,7 +38,7 @@ const Home = () => {
     fetch('https://jsonplaceholder.typicode.com/photos').then(async (response) => {
       const datos = await response.json();
 
-      setNoticias(datos.slice(0, 20));
+      setNoticias(datos.slice(0, 5));
     }).catch((error) => {
       console.log(error);
     });
@@ -55,9 +57,7 @@ const Home = () => {
     db.collection("avisos").doc("aviso-principal").onSnapshot(((docAviso) => {
       setAviso(docAviso.data());
     }));
-
   }, []);
-
 
   const renderNoticia = ({item}) => {
     return (
@@ -65,9 +65,15 @@ const Home = () => {
     )
   };
 
+  const onLogout = async () => {
+    await logout();
+  };
+
   return (
-    <View style={styles.contenedor}>
+    <SafeAreaView style={styles.contenedor}>
       <LogoItch />
+
+      <Button title="Salir" onPress={onLogout} />
 
       {/* {
         noticias.length > 0 &&
@@ -116,7 +122,7 @@ const Home = () => {
       }
       </ScrollView> */}
       
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -5,10 +5,12 @@ import {
   FlatList,
   ActivityIndicator,
   ImageBackground,
+  Button,
+  SafeAreaView,
 } from "react-native";
 
 import LogoItch from "../../componentes/Logo";
-import { useGetFirestoreAlumnos } from "../../utils/firestore";
+import { logout, useGetFirestoreAlumnos } from "../../utils/firestore";
 import styles from './styles';
 
 const Alumnos = () => {
@@ -51,10 +53,12 @@ const Alumnos = () => {
   };
 
   return (
-    <View style={styles.contenedor}>
+    <SafeAreaView style={styles.contenedor}>
       <LogoItch />
 
       <Text>Bienvenido alumno registrado</Text>
+
+      <Button title="Salir" onPress={logout} />
 
       {
         items.length > 0 && 
@@ -69,7 +73,7 @@ const Alumnos = () => {
         items.length < 1 && 
         <ActivityIndicator color="black" size="large" />
       }
-    </View>
+    </SafeAreaView>
   );
 };
 
